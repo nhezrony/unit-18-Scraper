@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">Mongo Scraper 2.0</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+                <a class="nav-item nav-link" href="/api/savedArticles">Saved Articles</a>
+                <a class="nav-item nav-link" href="#" id="scrapeArticles">Scrape New Articles</a>
+                <!-- <a class="nav-item nav-link" href="/api/scrape">Scrape New Articles</a> -->
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="./data-connect-card-800x400.png" alt="First slide">
+            </div>
+
+        </div>
+    </div> -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col articles">
+
+
+
+                <!-- <div class="card mt-5">
+                    <h5 class="card-header">Why does AI stink at certain video games? Researchers made one play Ms. Pac-Man to find out</h5>
+                    <div class="card-body">
+                        <p class="card-text">
+                            STOCKHOLM—Artificial intelligence (AI) can kick butt in games such as Pong and Space Invaders, but it comes off like a common
+                            n00b when playing Ms. Pac-Man (pictured). Now, by making AI play six classic arcade games, researchers
+                            are closer to figuring out why thinking machines excel at some games and stink at others, they
+                            reported last month at the International Conference on Machine Learning here
+                        </p>
+                        <hr class="my-4">
+                        <a href="#" class="btn btn-success readBtn" id="2RKmcAzYhygJo6JjBgvYo7ubHFMJhPE7">Read Article</a>
+                        <a href="#" class="btn btn-info saveBtn ml-2" id="2RKmcAzYhygJo6JjBgvYo7ubHFMJhPE7">Save Article</a>
+                    </div>
+                </div> -->
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $(".saveBtn").on('click', function () {
+            let articleId = $(this).attr('id')
+            console.log(articleId)
+        })
+        $(".readBtn").on('click', function () {
+            let articleId = $(this).attr('id')
+            console.log(articleId)
+        })
+        $("#scrapeArticles").on('click', function () {
+            $.post("/api/scrape", (data) => {
+                function Card(id, title, text) {
+                    let $card = $('<div>', {
+                        class: "card mt-5",
+                        id: id
+                    });
+                    let $cardHeader = $('<h5>', {
+                        class: "card-header",
+                        text: title
+                    });
+                    let $cardBody = $('<div>', {
+                        class: "card-body",
+                    });
+                    let $cardText = $('<p>', {
+                        class: "card-text",
+                        html: text
+                    });
+                    let $hr = $('<hr>', {
+                        class: "my-4"
+                    });
+                    let $readArticle = $('<a>', {
+                        class: "btn btn-success readBtn",
+                        id: id,
+                        text: 'Read Article'
+                    });
+                    let $saveArticle = $('<a>', {
+                        class: "btn btn-info saveBtn ml-2",
+                        id: id,
+                        text: 'Save Article'
+
+                    });
+                    $('.articles').append($card.append($cardHeader, $cardBody.append($cardText, $hr,
+                        $readArticle, $saveArticle)))
+                }
+                data.map(article => new Card(article._id, article.title, article.articleHTML))
+            })
+        })
+    </script>
+</body>
+
+</html>
